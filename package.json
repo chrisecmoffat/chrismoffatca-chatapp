@@ -1,5 +1,5 @@
 {
-  "name": "Chris Moffat",
+  "name": "chrismoffat",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -12,7 +12,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.3",
-    "mongoose": "^4.10.4",
     "socket.io": "^2.0.1"
   }
 }

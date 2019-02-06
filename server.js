@@ -1,58 +1,30 @@
-// var mongoose  = require('mongoose');
 var express   = require('express');
 var http      = require('http');
-var app       = express();
+var app       = require('express')();
 var server    = http.Server(app);
 
-server.set('port', (process.env.PORT || 5000));
-
 app.use(express.static('client'));
-// mongoose.connect('mongodb://localhost/chatdb');
 
-// var chatSchema = new mongoose.Schema({  
-//   message: String
-// });
+app.get('/', function(req, res){
+  res.sendFile(__dirname + '/client/index.html');
+});
 
-var io            = require('socket.io')(server);
-// var Message       = mongoose.model("Message", chatSchema);
-var databaseArray = ["","","","",""];
+var io = require('socket.io')(server);
+// var databaseArray = [];
 
 io.on('connection', function (socket) {
-//   Message.find({}).sort({'_id': 1}).exec(function(err, allMessages) {
-//     if (err) {
-//       console.log("DATABASE READ ERROR");
-//       console.log(err);
-//     } else {
-      for (var i = 0; i < databaseArray.length; i++) {
-        socket.emit('history', allMessages[i].message);
-        databaseArray[i] = allMessages[i].message
-      }
-//     }
-  });
+      // for (var i = 0; i < databaseArray.length; i++) {
+      //   socket.emit('history', databaseArray[i].message);
+      //   databaseArray[i] = allMessages[i].message;
+      // }
 
   socket.on('message', function (msg) {
     io.emit('message', msg);
-    databaseArray.push(msg);
-    databaseArray.shift();
-  
-//     Message.remove({}, function(err) {
-//       if(err){
-//         console.log("DATABASE REMOVAL ERROR");
-//         console.log(err);
-//       }
-//     });
-  
-//     for (var i = 0; i < databaseArray.length; i++) {
-//       Message.create({message: databaseArray[i]}, function(err, chatmessage){
-//         if(err){
-//           console.log("DATABASE INSERT ERROR");
-//           console.log(err);
-//         }
-//       });
-//     }
+    // databaseArray.push(msg);
+    // databaseArray.shift();
   });
 });
 
-server.listen(port, function() {
+server.listen(process.env.PORT || 5000, function(){
   console.log('CHAT SERVER STARTED!!!');
 });
